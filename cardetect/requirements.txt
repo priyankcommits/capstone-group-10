@@ -1,2 +1,4 @@
+awscli==1.18.222
 Flask==1.1.2
+virtualenv==20.4.0
 zappa==0.52.0

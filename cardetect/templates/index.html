@@ -135,6 +135,19 @@
                 </div>
             </div>
             <div class="tab-pane fade" id="notes" role="tabpanel" aria-labelledby="notes-tab">
+                <ul>
+                    <li>The app is hosted on AWS Serverless using a Python framework dedicated for serverless apps called Zappa.</li>
+                    <li>The web framework is Flask which handles the endpoints as well as serving the intial html</li>
+                    <li> The UI framework is bootstrap using CDN</li>
+                    <li>The file saving and retreiving is done using Boto library and AWS S3 service</li>
+                    <li>The CI / CD is done using Github and Github actions, every code is automatically deployed to AWS</li>
+                </ul>
+
+                PS:
+                <ul>
+                    <li>Since there is no paid services being used, building the model is not possible on cloud instance but can be done using locally if you have access to this repo</li>
+                    <li>To run locally, create a python virtual env with version 3.7.3 and then install all the dependencies using pip install -r requirements.txt</li>
+                </ul>
             </div>
             <div class="tab-pane fade" id="team" role="tabpanel" aria-labelledby="team-tab">
                 <ul>

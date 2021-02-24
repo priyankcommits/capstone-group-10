@@ -5,6 +5,7 @@
         "profile_name": "default",
         "project_name": "cardetect",
         "runtime": "python3.7",
+        "slim_handler": true,
         "s3_bucket": "zappa-rd4uc08by"
     }
 }

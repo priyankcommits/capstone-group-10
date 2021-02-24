@@ -66,8 +66,11 @@ def train_model():
     path_test = os.path.join(uploads_dir, secure_filename("annot-test-downloaded.csv"))
     file_annot_train = get_s3_object("capstonegroup10", train_path, path_train)
     file_annot_test = get_s3_object("capstonegroup10", test_path, path_test)
+    def thread_callback(train, test, model_path):
+        build_model(train, test, model_path)
+        put_s3_object("capstonegroup10", model_path, "models/Model_{}.h5".format(dataset))
     data = start_data_prep(path_train, path_test)
-    thread = Thread(target=build_model, args=[data[2], data[3], models_dir + "/Model-{}.h5".format(dataset)])
+    thread = Thread(target=thread_callback, args=[data[2], data[3], models_dir + "/Model-{}.h5".format(dataset)])
     thread.start()
     return "Training has started this will take a lot of time, come back later use this model in the 'Detector' tab"
 

@@ -16,8 +16,6 @@ pd.options.mode.chained_assignment = None  # default='warn'
 paths = {}
 New_Height = 363
 New_Width = 525
-# New_Height = 163
-# New_Width = 325
 New_Size = [New_Height, New_Width]
 
 
@@ -202,7 +200,7 @@ def build_model(train_data, test_data, path_to_save):
     )
 
     history = model.fit(train_data,epochs=1,callbacks=[Reduce_LR,Saving_Callbacks_1,Saving_Callbacks_2],validation_data=test_data)
-    tf.keras.models.save_model(filepath=path_to_save)
+    tf.keras.models.save_model(filepath=path_to_save, model=model)
     return
 
 

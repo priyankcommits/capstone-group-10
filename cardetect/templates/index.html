@@ -11,14 +11,39 @@
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <title>Car Detection - Home</title>
+    <style>
+        .loader {
+            left: 49%;
+            top: 49%;
+            position: absolute;
+            color: black;
+        }
+        .spinner {
+            position: absolute;
+            z-index: 1000;
+            height: 100%;
+            width: 100%;
+            background-color: gray;
+            opacity: 0.5;
+        }
+    </style>
 </head>
 
 <body>
+    <div class="spinner"><span class="loader">Loading...</span></div>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Great Learning Capstone Project Group 10 - Car Detection</a>
     </nav>
     <div class="mt-2 mx-2">
         <ul class="nav nav-tabs" id="tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link" id="prepare-tab" data-toggle="tab" href="#prepare" role="tab" aria-controls="prepare"
+                    aria-selected="true">Prepare</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="train-tab" data-toggle="tab" href="#train" role="tab" aria-controls="train"
+                    aria-selected="true">Train</a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
                     aria-selected="true">Detector</a>
@@ -33,18 +58,99 @@
             </li>
         </ul>
         <div class="tab-content mt-2" id="content">
-            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">This is the
-                detector</div>
-            <div class="tab-pane fade" id="notes" role="tabpanel" aria-labelledby="notes-tab">This is the notes section
+            <div class="tab-pane fade" id="prepare" role="tabpanel" aria-labelledby="prepare-tab">
+                <div class="row">
+                    <div class="xs-4 ml-5">
+                        <form enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="train-upload">Upload Train CSV</label>
+                                <input type="file" class="form-control-file" id="train-upload" name="train-upload">
+                            </div>
+                            <div class="form-group">
+                                <label for="test-upload">Upload Test CSV</label>
+                                <input type="file" class="form-control-file" id="test-upload" name="test-upload">
+                            </div>
+                            <div class="form-group">
+                                <label for="train-name">Give it a name</label>
+                                <input type="text" id="train-name" name="train-name">
+                            </div>
+                            <button id="btn-prepare-upload" type="button" class="btn btn-primary mb-2">Start Preparing Data</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="prepare-placeholder-1" class="col">
+                    </div>
+                    <div id="prepare-placeholder-2" class="col">
+                    </div>
+                    <div id="prepare-placeholder-3" class="col">
+                    </div>
+                </div>
             </div>
-            <div class="tab-pane fade" id="team" role="tabpanel" aria-labelledby="team-tab">This is the team section
+            <div class="tab-pane fade" id="train" role="tabpanel" aria-labelledby="train-tab">
+                <div class="row">
+                    <div class="xs-4 ml-5">
+                        <form enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label>Choose Existing DataSet</label>
+                                <select name="dataset" id="dataset">
+                                {% for set in data.sets %}
+                                    <option value="{{ set }}" SELECTED>{{ set }}</option>
+                                {% endfor %}
+                                </select>
+                            </div>
+                            <button id="btn-train-upload" type="button" class="btn btn-primary mb-2">Start Build Model</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <div class="row">
+                    <div class="xs-4 ml-5">
+                        <form enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="image-upload">Upload Image</label>
+                                <input type="file" class="form-control-file" id="imge-upload" name="image-upload">
+                            </div>
+                            <div class="form-group">
+                                <label>Choose Existing Model</label>
+                                <select name="model" id="model">
+                                {% for model in data.models %}
+                                    <option value="{{ model }}" SELECTED>Model_{{ model }}</option>
+                                {% endfor %}
+                                </select>
+                            </div>
+                            <button id="btn-image-upload" type="button" class="btn btn-primary mb-2">Start Predicting</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div id="predict-placeholder-1" class="col">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <ul id="predict-placeholder-2"></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="notes" role="tabpanel" aria-labelledby="notes-tab">
+            </div>
+            <div class="tab-pane fade" id="team" role="tabpanel" aria-labelledby="team-tab">
+                <ul>
+                    <li>Kushal</li>
+                    <li>Priyank</li>
+                    <li>Anuj</li>
+                    <li>Somesh</li>
+                    <li>Vimal</li>
+                </ul>
             </div>
         </div>
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
@@ -52,6 +158,115 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+    <script>
+        $(function(){
+        $(document).ready(function(){
+            $(".spinner").hide();
+            // Function for handling image upload
+            var files = [];
+
+            $('input[type=file]').on('change', prepareUpload);
+            function prepareUpload(event){
+                files.push(event.target.files);
+            };
+            $('#btn-image-upload').click(function(){
+                var formData = new FormData();
+                $.each(files, function(key, value){
+                    $.each(value, function(fileKey, fileValue) {
+                        formData.append(fileKey, fileValue);
+                    });
+                });
+                formData.append("name", $("#model").val());
+                $(".spinner").show();
+                $.ajax({
+                url: '/predict',
+                type: 'POST',
+                data: formData,
+                success: function(data) {
+                    varFirstImageElement = '<img src="data:image/png;base64,' + data.image + '" class="img-fluid" />';
+                    $('#predict-placeholder-1').append(varFirstImageElement);
+                    $.each(data.top, function( index, value ) {
+                        $('#predict-placeholder-2').append('<li>' + value + '</li>')
+                    });
+                },
+                error: function(data) {
+                    alert("Error code 3");
+                },
+                complete: function() {
+                    $('input[type=file]').val('');
+                    $(".spinner").hide();
+                },
+                timeout: 300000,
+                cache: false,
+                contentType: false,
+                processData: false
+                });
+            });
+
+            $('#btn-prepare-upload').click(function(){
+                var formData = new FormData();
+                $.each(files, function(key, value){
+                    $.each(value, function(fileKey, fileValue) {
+                        formData.append(fileKey, fileValue);
+                    });
+                });
+                formData.append("name", $("#train-name").val());
+                $(".spinner").show();
+                $.ajax({
+                url: '/prepare',
+                type: 'POST',
+                data: formData,
+                success: function(data) {
+                    varFirstImageElement = '<img src="data:image/png;base64,' + data[0] + '" class="img-fluid" />';
+                    varSecondImageElement = '<img src="data:image/png;base64,' + data[1] + '" class="img-fluid" />';
+                    varThirdImageElement = '<img src="data:image/png;base64,' + data[2] + '" class="img-fluid" />';
+                    $('#prepare-placeholder-1').append(varFirstImageElement);
+                    $('#prepare-placeholder-2').append(varSecondImageElement);
+                    $('#prepare-placeholder-3').append(varThirdImageElement);
+                    alert("Data Prepared, proceed to training");
+                },
+                error: function(data) {
+                    alert("Error code 1");
+                },
+                complete: function() {
+                    $('input[type=file]').val('');
+                    $(".spinner").hide();
+                },
+                cache: false,
+                timeout: 300000,
+                contentType: false,
+                processData: false
+                });
+            });
+
+            $('#btn-train-upload').click(function(){
+                var formData = new FormData();
+                formData.append("name", $("#dataset").val());
+                $(".spinner").show();
+                $.ajax({
+                url: '/train',
+                type: 'POST',
+                data: formData,
+                success: function(data) {
+                    alert(data);
+                },
+                error: function(data) {
+                    alert("Error code 2");;
+                },
+                complete: function() {
+                    $('input[type=file]').val('');
+                    $(".spinner").hide();
+                },
+                cache: false,
+                timeout: 300000,
+                contentType: false,
+                processData: false
+                });
+            });
+
+        });
+        });
+    </script>
 </body>
 
 </html>

@@ -2,6 +2,7 @@ Flask==1.1.2
 Keras==2.4.3
 awscli==1.18.222
 boto3==1.16.61
+gunicorn==19.9.0
 matplotlib==3.3.4
 numpy==1.19.5
 opencv-python==4.5.1.48

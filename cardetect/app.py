@@ -8,8 +8,8 @@ from flask import Flask, render_template, request, jsonify, make_response
 from werkzeug import secure_filename
 
 # local
-from model import start_data_prep, display_image, build_model, prepare_dataset, predict_car
-from utils import put_s3_object, get_s3_object, get_s3_list, mandatory_data, install_and_import
+from .model import start_data_prep, display_image, build_model, prepare_dataset, predict_car
+from .utils import put_s3_object, get_s3_object, get_s3_list, mandatory_data, install_and_import
 
 app = Flask(__name__)
 

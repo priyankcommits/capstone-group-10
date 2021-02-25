@@ -6,6 +6,9 @@
         "project_name": "cardetect",
         "runtime": "python3.7",
         "slim_handler": true,
+        "exclude": ["*.h5"],
+        "debug": true,
+        "log_level": "DEBUG",
         "s3_bucket": "zappa-rd4uc08by"
     }
 }

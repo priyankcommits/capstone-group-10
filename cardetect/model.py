@@ -1,15 +1,12 @@
 import os, base64
 from io import BytesIO
 
-from tensorflow.keras.utils import to_categorical
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import tensorflow as tf
 
-Autotune = tf.data.AUTOTUNE
 pd.options.mode.chained_assignment = None  # default='warn'
 
 
@@ -36,6 +33,7 @@ def prepare_csv(path, images_path):
 
 ### Raw Data set preparation function - Returns raw dataset
 def prepare_dataset(type):
+    import tensorflow as tf
     train_path_images = "car_data/car_data/train/"
     test_path_images = "car_data/car_data/test/"
     Class_Names = {}
@@ -55,6 +53,7 @@ def prepare_dataset(type):
 
 
 def preprocess_train_image(path, loc, im_class):
+    import tensorflow as tf
     image = tf.io.read_file(path)
     Depth = len(prepare_dataset("train")[1])
     image = tf.image.decode_jpeg(image, channels=3)
@@ -83,11 +82,12 @@ def preprocess_train_image(path, loc, im_class):
 
 
 def gen_main_data(data, batch_size):
+    import tensorflow as tf
     data = data.shuffle(buffer_size = 10000)
-    data = data.prefetch (buffer_size = Autotune)
-    data = data.map(preprocess_train_image,num_parallel_calls = Autotune)
+    data = data.prefetch (buffer_size = tf.data.AUTOTUNE)
+    data = data.map(preprocess_train_image,num_parallel_calls = tf.data.AUTOTUNE)
     data = data.batch(batch_size=batch_size)
-    data = data.prefetch (buffer_size = Autotune)
+    data = data.prefetch (buffer_size = tf.data.AUTOTUNE)
     return data
 
 def start_data_prep(train_path, test_path):
@@ -100,6 +100,7 @@ def start_data_prep(train_path, test_path):
     return (train_dataset_raw, test_dataset_raw, train_data, test_data, Annotation_Dict)
 
 def display_image (train_path, path,loc,im_class,resized): ## 0 for no scaling, 1 for scaling
+    import tensorflow as tf
     image = tf.io.read_file(path)
     image = tf.image.decode_jpeg(image,channels = 3)
     x1 = loc[0]
@@ -124,6 +125,7 @@ def display_image (train_path, path,loc,im_class,resized): ## 0 for no scaling, 
     return base64_string
 
 def IOU(y_true, y_pred):
+    import tensorflow as tf
     intersections = 0
     unions = 0
     # set the types so we are sure what type we are using
@@ -153,10 +155,12 @@ def IOU(y_true, y_pred):
     return iou
 
 def IoU(y_true, y_pred):
+    import tensorflow as tf
     iou = tf.py_function(IOU, [y_true, y_pred], Tout=tf.float32)
     return iou
 
 def build_model(train_data, test_data, path_to_save):
+    import tensorflow as tf
     input_shape = [New_Height,New_Width,3]
     InceptionResNetV2_layer = tf.keras.applications.InceptionResNetV2(input_shape=input_shape,include_top=False,weights="imagenet")
     for layer in InceptionResNetV2_layer.layers:
@@ -205,11 +209,13 @@ def build_model(train_data, test_data, path_to_save):
 
 
 def predict_car(image_path, path_to_load, Annotation_Dict):
+    import tensorflow as tf
     loaded_model = tf.keras.models.load_model(path_to_load, custom_objects={"IoU": IoU})
     predictions = show_picture( Annotation_Dict, image_path, loaded_model)
     return predictions
 
 def read_image(path):
+    import tensorflow as tf
     image = tf.io.read_file(path)
     image = tf.image.decode_jpeg(image,channels = 3)
     image = tf.cast(image,dtype = tf.float32)
@@ -217,6 +223,7 @@ def read_image(path):
     return image
 
 def create_test_data(path):
+    import tensorflow as tf
     data_image = tf.data.Dataset.from_tensors(path)
     data_image = data_image.map(read_image)
     data_image = data_image.batch(batch_size=1)
@@ -260,4 +267,4 @@ def show_picture(Annotation_Dict, path, model):
     for i in top_5[0]: #range(len(top_5)):
       top_5_prob.append(image_class_prob[0][i])
       top_5_class.append(Annotation_Dict[i+1])
-    return (top_5_class, base64_string)
+    return (top_5_class, base64_string, image_class)

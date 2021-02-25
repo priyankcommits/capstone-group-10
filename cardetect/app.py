@@ -9,7 +9,7 @@ from werkzeug import secure_filename
 
 # local
 from model import start_data_prep, display_image, build_model, prepare_dataset, predict_car
-from utils import put_s3_object, get_s3_object, get_s3_list, mandatory_data
+from utils import put_s3_object, get_s3_object, get_s3_list, mandatory_data, install_and_import
 
 app = Flask(__name__)
 
@@ -20,6 +20,7 @@ os.makedirs(uploads_dir, exist_ok=True)
 
 @app.route('/', methods=["GET"])
 def index():
+    install_and_import("tensorflow")
     contents = get_s3_list("capstonegroup10", "data")
     sets = []
     for content in contents:
@@ -97,4 +98,4 @@ def predict():
     else:
         print("exists locally, not downloading")
     result = predict_car(image_path, models_dir + "/" + model_path, data[4])
-    return make_response(jsonify({"top": result[0], "image": result[1]}), 200)
+    return make_response(jsonify({"top": result[0], "image": result[1], "class": result[2]}), 200)

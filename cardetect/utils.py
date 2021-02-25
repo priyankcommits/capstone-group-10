@@ -41,3 +41,17 @@ def mandatory_data():
             zip_ref.extractall(".")
     else:
         print("exists locally, not downloading")
+
+def install_and_import(package):
+    # import importlib
+    # import pip
+    # import pdb;pdb.set_trace()
+    # try:
+    #     importlib.import_module(package)
+    # except ImportError:
+    #     import pip
+    #     pip.main(['install', package])
+    # finally:
+    #     globals()["tf"] = importlib.import_module(package)
+    import subprocess
+    subprocess.call(['pip', 'install', package])

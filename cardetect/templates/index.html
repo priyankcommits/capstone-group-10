@@ -128,6 +128,8 @@
                     <div class="col">
                         <div id="predict-placeholder-1" class="col">
                         </div>
+                        <div id="predict-placeholder-3" class="col">
+                        </div>
                     </div>
                     <div class="col">
                         <ul id="predict-placeholder-2"></ul>
@@ -199,6 +201,7 @@
                 success: function(data) {
                     varFirstImageElement = '<img src="data:image/png;base64,' + data.image + '" class="img-fluid" />';
                     $('#predict-placeholder-1').append(varFirstImageElement);
+                    $('#predict-placeholder-3').append('<span>' + data.class + '</span>');
                     $.each(data.top, function( index, value ) {
                         $('#predict-placeholder-2').append('<li>' + value + '</li>')
                     });

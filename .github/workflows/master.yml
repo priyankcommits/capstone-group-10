@@ -15,7 +15,8 @@ jobs:
         python-version: 3.7
 
     - name: Install dependencies
-      run: pip install -r cardetect/requirements.txt
+      run: |
+        pip install virtualenv
 
     - name: Configure AWS profile
       run: |

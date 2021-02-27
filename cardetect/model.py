@@ -203,7 +203,7 @@ def build_model(train_data, test_data, path_to_save):
         metrics={"Loc":IoU,"Label": [top_k_categorical_accuracy, "categorical_accuracy"]}
     )
 
-    history = model.fit(train_data,epochs=1,callbacks=[Reduce_LR,Saving_Callbacks_1,Saving_Callbacks_2],validation_data=test_data)
+    history = model.fit(train_data,epochs=100,callbacks=[Reduce_LR,Saving_Callbacks_1,Saving_Callbacks_2],validation_data=test_data)
     tf.keras.models.save_model(filepath=path_to_save, model=model)
     return
 
